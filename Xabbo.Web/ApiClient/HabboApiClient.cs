@@ -49,7 +49,7 @@ public sealed partial class HabboApiClient : IDisposable
                     new HttpRequestMessage
                     {
                         Method = HttpMethod.Head,
-                        RequestUri = new Uri($"/habbo-imaging/avatarimage?user={WebUtility.UrlEncode(name)}")
+                        RequestUri = new Uri($"/habbo-imaging/avatarimage?user={WebUtility.UrlEncode(name)}", UriKind.Relative)
                     },
                     cancellationToken
                 );
@@ -77,7 +77,7 @@ public sealed partial class HabboApiClient : IDisposable
     /// <returns>The user's information</returns>
     /// <exception cref="UserNotFoundException">If the user was not found.</exception>
     public Task<UserInfo> GetUserInfoAsync(string name, bool checkBanned = true, CancellationToken cancellationToken = default)
-        => GetUserInfoAsync(new Uri($"/api/public/users?name={WebUtility.UrlEncode(name)}"), null, name, checkBanned, cancellationToken);
+        => GetUserInfoAsync(new Uri($"/api/public/users?name={WebUtility.UrlEncode(name)}", UriKind.Relative), null, name, checkBanned, cancellationToken);
 
     /// <summary>
     /// Gets the info a user by their unique ID.
@@ -90,7 +90,7 @@ public sealed partial class HabboApiClient : IDisposable
     /// It is not possible to detect whether a user is banned without their name.
     /// </exception>
     public Task<UserInfo> GetUserInfoAsync(HabboUniqueUserId uniqueId, CancellationToken cancellationToken = default)
-        => GetUserInfoAsync(new Uri($"/api/public/users/{uniqueId}"), uniqueId, null, false, cancellationToken);
+        => GetUserInfoAsync(new Uri($"/api/public/users/{uniqueId}", UriKind.Relative), uniqueId, null, false, cancellationToken);
 
     /// <summary>
     /// Gets the profile of a user by their name.       
