@@ -71,7 +71,10 @@ public sealed partial class HabboApiClient : IDisposable
         }
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<UserInfo>(JsonOptions, cancellationToken))!;
+        var userInfo = (await res.Content.ReadFromJsonAsync<UserInfo>(JsonOptions, cancellationToken))!;
+        if (userInfo.IsProfileVisible)
+            userInfo = (await res.Content.ReadFromJsonAsync<ExtendedUserInfo>(JsonOptions, cancellationToken))!;
+        return userInfo;
     }
 
     /// <summary>
