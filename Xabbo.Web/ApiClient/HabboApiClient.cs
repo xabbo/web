@@ -51,7 +51,7 @@ public sealed partial class HabboApiClient : IDisposable
     #region Users
     private async Task<UserInfo> GetUserInfoAsync(Uri requestUri, HabboUniqueUserId? uniqueId, string? name, bool checkBanned, CancellationToken cancellationToken)
     {
-        var res = await _http.GetAsync(requestUri);
+        var res = await _http.GetAsync(requestUri, cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
         {
             if (checkBanned && !string.IsNullOrWhiteSpace(name))
