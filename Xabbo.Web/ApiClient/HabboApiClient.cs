@@ -16,7 +16,13 @@ public sealed partial class HabboApiClient : IDisposable
 
     private bool _disposed;
 
-    public HttpClient HttpClient { get; }
+    private readonly HttpClient _http;
+
+    public Uri? BaseAddress
+    {
+        get => _http.BaseAddress;
+        set => _http.BaseAddress = value;
+    }
 
     public HabboApiClient(string baseAddress = "https://www.habbo.com/")
     {
@@ -30,7 +36,7 @@ public sealed partial class HabboApiClient : IDisposable
             }
         };
 
-        HttpClient = new()
+        _http = new()
         {
             BaseAddress = new Uri(baseAddress),
             DefaultRequestHeaders =
@@ -43,12 +49,12 @@ public sealed partial class HabboApiClient : IDisposable
     #region Users
     private async Task<UserInfo> GetUserInfoAsync(Uri requestUri, HabboUniqueUserId? uniqueId, string? name, bool checkBanned, CancellationToken cancellationToken)
     {
-        var res = await HttpClient.GetAsync(requestUri);
+        var res = await _http.GetAsync(requestUri);
         if (res.StatusCode == HttpStatusCode.NotFound)
         {
             if (checkBanned && !string.IsNullOrWhiteSpace(name))
             {
-                res = await HttpClient.SendAsync(
+                res = await _http.SendAsync(
                     new HttpRequestMessage
                     {
                         Method = HttpMethod.Head,
@@ -137,7 +143,7 @@ public sealed partial class HabboApiClient : IDisposable
     /// <exception cref="ProfileNotVisibleException">If the user's profile is not visible.</exception>
     public async Task<UserProfile> GetUserProfileAsync(HabboUniqueUserId uniqueId, bool checkNotVisible = true, CancellationToken cancellationToken = default)
     {
-        var res = await HttpClient.GetAsync($"/api/public/users/{uniqueId}/profile", cancellationToken);
+        var res = await _http.GetAsync($"/api/public/users/{uniqueId}/profile", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
         {
             if (checkNotVisible)
@@ -159,7 +165,7 @@ public sealed partial class HabboApiClient : IDisposable
         if (roomId < 0)
             throw new ArgumentException("Room ID must not be negative.", nameof(roomId));
 
-        var res = await HttpClient.GetAsync($"/api/public/rooms/{roomId}", cancellationToken);
+        var res = await _http.GetAsync($"/api/public/rooms/{roomId}", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
             throw new RoomNotFoundException(roomId);
 
@@ -171,7 +177,7 @@ public sealed partial class HabboApiClient : IDisposable
     #region Photos
     public async Task<PhotoData> GetPhotoDataAsync(Guid photoId, CancellationToken cancellationToken = default)
     {
-        var res = await HttpClient.GetAsync($"https://extradata.habbo.com/public/furni/{photoId}", cancellationToken);
+        var res = await _http.GetAsync($"https://extradata.habbo.com/public/furni/{photoId}", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
             throw new PhotoNotFoundException(photoId);
 
@@ -187,7 +193,7 @@ public sealed partial class HabboApiClient : IDisposable
 
         if (disposing)
         {
-            HttpClient.Dispose();
+            _http.Dispose();
         }
     }
 
