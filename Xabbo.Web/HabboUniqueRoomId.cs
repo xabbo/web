@@ -51,7 +51,7 @@ public readonly struct HabboUniqueRoomId
     public static bool operator ==(string left, HabboUniqueRoomId right) => right.Equals(left);
     public static bool operator !=(string left, HabboUniqueRoomId right) => !(left == right);
 
-    public static implicit operator string(HabboUniqueRoomId uniqueId) => uniqueId.ToString();
+    public static explicit operator string(HabboUniqueRoomId uniqueId) => uniqueId.ToString();
     public static explicit operator HabboUniqueRoomId(string idString) => HabboUniqueRoomId.Parse(idString);
 
     public static HabboUniqueRoomId Parse(string idString)
