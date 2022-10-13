@@ -162,6 +162,7 @@ public sealed partial class HabboApiClient : IDisposable
         if (res.StatusCode == HttpStatusCode.NotFound)
             throw new RoomNotFoundException(roomId);
 
+        res.EnsureSuccessStatusCode();
         return (await res.Content.ReadFromJsonAsync<RoomInfo>(_jsonOptions, cancellationToken))!;
     }
     #endregion
