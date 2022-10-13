@@ -149,6 +149,20 @@ public sealed partial class HabboApiClient : IDisposable
         return (await res.Content.ReadFromJsonAsync<UserProfile>(_jsonOptions, cancellationToken))!;
     }
 
+    #region Rooms
+    public async Task<RoomInfo> GetRoomInfoAsync(long roomId, CancellationToken cancellationToken = default)
+    {
+        if (roomId < 0)
+            throw new ArgumentException("Room ID must not be negative.", nameof(roomId));
+
+        var res = await HttpClient.GetAsync($"/api/public/rooms/{roomId}", cancellationToken);
+        if (res.StatusCode == HttpStatusCode.NotFound)
+            throw new RoomNotFoundException(roomId);
+
+        return (await res.Content.ReadFromJsonAsync<RoomInfo>(_jsonOptions, cancellationToken))!;
+    }
+    #endregion
+
     private void Dispose(bool disposing)
     {
         if (_disposed) return;
