@@ -14,34 +14,35 @@ public readonly struct HabboUniqueRoomId
     public string Hotel { get; }
 
     /// <summary>
-    /// Gets the ID.
+    /// Gets the hash.
     /// </summary>
-    public ulong Id { get; }
+    public string Hash { get; }
 
-    public HabboUniqueRoomId(string hotel, ulong id)
+    public HabboUniqueRoomId(string hotel, string hash)
     {
         if (hotel.Length != 2)
             throw new FormatException("Hotel must be a 2-character identifier.");
 
-        Hotel = hotel;
-        Id = id;
+        Hotel = hotel.ToLower();
+        Hash = hash.ToLower();
     }
 
-    public override string ToString() => $"r-hh{Hotel}-{Id:x32}";
+    public override string ToString() => $"r-hh{Hotel}-{Hash}";
 
-    public override int GetHashCode() => (Hotel, Id).GetHashCode();
+    public override int GetHashCode() => (Hotel, Hash).GetHashCode();
     public override bool Equals([NotNullWhen(true)] object? obj)
     {
         return obj switch
         {
-            HabboUniqueUserId other => Equals(other),
+            HabboUniqueRoomId other => Equals(other),
             string uniqueId => Equals(uniqueId),
             _ => false
         };
     }
-
-    public bool Equals(HabboUniqueRoomId other) => Hotel.Equals(other.Hotel, StringComparison.OrdinalIgnoreCase) && Id == other.Id;
     public bool Equals(string uniqueId) => ToString().Equals(uniqueId, StringComparison.OrdinalIgnoreCase);
+    public bool Equals(HabboUniqueRoomId other) =>
+        Hotel.Equals(other.Hotel, StringComparison.OrdinalIgnoreCase) &&
+        Hash.Equals(other.Hash, StringComparison.OrdinalIgnoreCase);
 
     public static bool operator ==(HabboUniqueRoomId left, HabboUniqueRoomId right) => left.Equals(right);
     public static bool operator !=(HabboUniqueRoomId left, HabboUniqueRoomId right) => !(left == right);
@@ -58,9 +59,6 @@ public readonly struct HabboUniqueRoomId
         if (!HabboApiUtil.IsUniqueRoomId(idString))
             throw new FormatException("Invalid unique room ID format.");
 
-        string hotel = idString[4..6];
-        ulong id = ulong.Parse(idString[^32..], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-
-        return new HabboUniqueRoomId(hotel, id);
+        return new HabboUniqueRoomId(idString[4..6], idString[^32..]);
     }
 }
