@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 
 using Xabbo.Web.Serialization;
+using Xabbo.Web.Util;
 
 namespace Xabbo.Web;
 
@@ -34,7 +35,7 @@ public sealed partial class HabboApiClient : IDisposable
             BaseAddress = new Uri(baseAddress),
             DefaultRequestHeaders =
             {
-                { "User-Agent", "Xabbo.Web" }
+                { "User-Agent", $"Xabbo.Web, {VersionUtil.SemanticVersion}" }
             }
         };
     }
