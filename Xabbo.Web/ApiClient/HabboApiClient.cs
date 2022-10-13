@@ -41,7 +41,7 @@ public sealed partial class HabboApiClient : IDisposable
             BaseAddress = new Uri(baseAddress),
             DefaultRequestHeaders =
             {
-                { "User-Agent", $"Xabbo.Web, {VersionUtil.SemanticVersion}" }
+                { "User-Agent", $"Xabbo.Web/{VersionUtil.SemanticVersion}" }
             }
         };
     }
