@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Xabbo.Web;
+﻿namespace Xabbo.Web;
 
 /// <summary>
 /// Extended user information available when the user's profile is visible.

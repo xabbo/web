@@ -23,18 +23,19 @@ public sealed partial class HabboApiClient : IDisposable
         set => _http.BaseAddress = value;
     }
 
-    public JsonSerializerOptions JsonOptions { get; }
+    public JsonSerializerOptions SerializerOptions { get; }
 
     public HabboApiClient(string baseAddress = "https://www.habbo.com/")
     {
-        JsonOptions = new JsonSerializerOptions
+        SerializerOptions = new JsonSerializerOptions
         {
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {
                 new DateTimeConverter(),
                 new HabboUniqueUserIdConverter(),
-                new HabboUniqueRoomIdConverter()
+                new HabboUniqueRoomIdConverter(),
+                new UserInfoConverter()
             }
         };
 
@@ -71,9 +72,9 @@ public sealed partial class HabboApiClient : IDisposable
         }
 
         res.EnsureSuccessStatusCode();
-        var userInfo = (await res.Content.ReadFromJsonAsync<UserInfo>(JsonOptions, cancellationToken))!;
-        if (userInfo.IsProfileVisible)
-            userInfo = (await res.Content.ReadFromJsonAsync<ExtendedUserInfo>(JsonOptions, cancellationToken))!;
+        var userInfoBase = await res.Content.ReadFromJsonAsync<UserInfoBase>(SerializerOptions, cancellationToken);
+        if (userInfoBase is not UserInfo userInfo)
+            throw new JsonException("Failed to deserialize UserInfo.");
         return userInfo;
     }
 
@@ -160,7 +161,7 @@ public sealed partial class HabboApiClient : IDisposable
         }
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<UserProfile>(JsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<UserProfile>(SerializerOptions, cancellationToken))!;
     }
     #endregion
 
@@ -175,7 +176,7 @@ public sealed partial class HabboApiClient : IDisposable
             throw new RoomNotFoundException(roomId);
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<RoomInfo>(JsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<RoomInfo>(SerializerOptions, cancellationToken))!;
     }
     #endregion
 
@@ -187,7 +188,7 @@ public sealed partial class HabboApiClient : IDisposable
             throw new PhotoNotFoundException(photoId);
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<PhotoData>(JsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<PhotoData>(SerializerOptions, cancellationToken))!;
     }
     #endregion
 

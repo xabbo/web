@@ -1,5 +1,8 @@
 ﻿namespace Xabbo.Web;
 
+/// <summary>
+/// Defines a user's information.
+/// </summary>
 public class UserInfo : BasicUserInfo
 {
     [JsonPropertyName("memberSince")]
