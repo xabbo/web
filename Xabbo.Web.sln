@@ -1,22 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xabbo.Web", "Xabbo.Web\Xabbo.Web.csproj", "{846B9EE4-8996-40D8-BCF7-B8032C505C06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xabbo.Web", "Xabbo.Web\Xabbo.Web.csproj", "{846B9EE4-8996-40D8-BCF7-B8032C505C06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1FDB477F-5D8F-40A0-BFDB-8BB1A9A80CEF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{846B9EE4-8996-40D8-BCF7-B8032C505C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{846B9EE4-8996-40D8-BCF7-B8032C505C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{846B9EE4-8996-40D8-BCF7-B8032C505C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{846B9EE4-8996-40D8-BCF7-B8032C505C06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50557321-9885-4764-AC14-DC19FDF88A12}
 	EndGlobalSection
 EndGlobal
