@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Encodings.Web;
 
 using Xabbo.Web.Serialization;
 using Xabbo.Web.Util;
@@ -28,6 +29,7 @@ public sealed partial class HabboApiClient : IDisposable
     {
         JsonOptions = new JsonSerializerOptions
         {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {
                 new DateTimeConverter(),
