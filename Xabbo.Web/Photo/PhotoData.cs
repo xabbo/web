@@ -18,13 +18,13 @@ public class PhotoData
     public List<string> Tags { get; set; } = new();
 
     [JsonPropertyName("room_id")]
-    public int RoomId { get; set; }
+    public long RoomId { get; set; }
 
     [JsonPropertyName("creator_uniqueId")]
     public HabboUniqueUserId CreatorUniqueId { get; set; }
 
     [JsonPropertyName("creator_id")]
-    public int CreatorId { get; set; }
+    public long CreatorId { get; set; }
 
     [JsonPropertyName("creator_name")]
     public string CreatorName { get; set; } = string.Empty;
