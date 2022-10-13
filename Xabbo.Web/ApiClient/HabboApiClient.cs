@@ -38,6 +38,7 @@ public sealed partial class HabboApiClient : IDisposable
         };
     }
 
+    #region Users
     private async Task<UserInfo> GetUserInfoAsync(Uri requestUri, HabboUniqueUserId? uniqueId, string? name, bool checkBanned, CancellationToken cancellationToken)
     {
         var res = await HttpClient.GetAsync(requestUri);
@@ -148,6 +149,7 @@ public sealed partial class HabboApiClient : IDisposable
         res.EnsureSuccessStatusCode();
         return (await res.Content.ReadFromJsonAsync<UserProfile>(_jsonOptions, cancellationToken))!;
     }
+    #endregion
 
     #region Rooms
     public async Task<RoomInfo> GetRoomInfoAsync(long roomId, CancellationToken cancellationToken = default)
