@@ -12,8 +12,6 @@ namespace Xabbo.Web;
 /// </summary>
 public sealed partial class HabboApiClient : IDisposable
 {
-    private readonly JsonSerializerOptions _jsonOptions;
-
     private bool _disposed;
 
     private readonly HttpClient _http;
@@ -24,9 +22,11 @@ public sealed partial class HabboApiClient : IDisposable
         set => _http.BaseAddress = value;
     }
 
+    public JsonSerializerOptions JsonOptions { get; }
+
     public HabboApiClient(string baseAddress = "https://www.habbo.com/")
     {
-        _jsonOptions = new JsonSerializerOptions
+        JsonOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {
@@ -69,7 +69,7 @@ public sealed partial class HabboApiClient : IDisposable
         }
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<UserInfo>(_jsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<UserInfo>(JsonOptions, cancellationToken))!;
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public sealed partial class HabboApiClient : IDisposable
         }
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<UserProfile>(_jsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<UserProfile>(JsonOptions, cancellationToken))!;
     }
     #endregion
 
@@ -170,7 +170,7 @@ public sealed partial class HabboApiClient : IDisposable
             throw new RoomNotFoundException(roomId);
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<RoomInfo>(_jsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<RoomInfo>(JsonOptions, cancellationToken))!;
     }
     #endregion
 
@@ -182,7 +182,7 @@ public sealed partial class HabboApiClient : IDisposable
             throw new PhotoNotFoundException(photoId);
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<PhotoData>(_jsonOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<PhotoData>(JsonOptions, cancellationToken))!;
     }
     #endregion
 
