@@ -27,7 +27,7 @@ public class UserRoomInfo
     public string OwnerName { get; set; } = string.Empty;
 
     [JsonPropertyName("ownerUniqueId")]
-    public string OwnerUniqueId { get; set; } = string.Empty;
+    public HabboUniqueUserId OwnerUniqueId { get; set; }
 
     [JsonPropertyName("categories")]
     public List<string> Categories { get; set; } = new();
@@ -42,5 +42,5 @@ public class UserRoomInfo
     public int Rating { get; set; }
 
     [JsonPropertyName("uniqueId")]
-    public string UniqueId { get; set; } = string.Empty;
+    public HabboUniqueRoomId UniqueId { get; set; }
 }

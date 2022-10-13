@@ -24,7 +24,8 @@ public sealed partial class HabboApiClient : IDisposable
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {
                 new DateTimeConverter(),
-                new HabboUniqueUserIdConverter()
+                new HabboUniqueUserIdConverter(),
+                new HabboUniqueRoomIdConverter()
             }
         };
 

@@ -56,7 +56,7 @@ public readonly struct HabboUniqueRoomId
     public static HabboUniqueRoomId Parse(string idString)
     {
         if (!HabboApiUtil.IsUniqueRoomId(idString))
-            throw new FormatException("Invalid unique room ID format specified.");
+            throw new FormatException("Invalid unique room ID format.");
 
         string hotel = idString[4..6];
         ulong id = ulong.Parse(idString[^32..], NumberStyles.HexNumber, CultureInfo.InvariantCulture);

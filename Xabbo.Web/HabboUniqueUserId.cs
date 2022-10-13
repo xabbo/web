@@ -56,7 +56,7 @@ public readonly struct HabboUniqueUserId
     public static HabboUniqueUserId Parse(string idString)
     {
         if (!HabboApiUtil.IsUniqueUserId(idString))
-            throw new FormatException("Invalid unique user ID format specified.");
+            throw new FormatException("Invalid unique user ID format.");
 
         return new HabboUniqueUserId(idString[2..4], idString[^32..]);
     }

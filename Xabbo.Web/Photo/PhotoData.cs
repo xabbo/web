@@ -3,7 +3,7 @@
 public class PhotoData
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; } = string.Empty;
+    public Guid Id { get; set; } = Guid.Empty;
 
     [JsonPropertyName("version")]
     public int Version { get; set; }
@@ -21,7 +21,7 @@ public class PhotoData
     public int RoomId { get; set; }
 
     [JsonPropertyName("creator_uniqueId")]
-    public string CreatorUniqueId { get; set; } = string.Empty;
+    public HabboUniqueUserId CreatorUniqueId { get; set; }
 
     [JsonPropertyName("creator_id")]
     public int CreatorId { get; set; }
