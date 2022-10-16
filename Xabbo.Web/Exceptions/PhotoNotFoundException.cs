@@ -5,7 +5,7 @@ public class PhotoNotFoundException : Exception
     public Guid Id { get; }
 
     public PhotoNotFoundException(Guid id)
-        : base($"Photo with ID {id} not found.")
+        : base($"Photo with ID '{id}' not found.")
     {
         Id = id;
     }
