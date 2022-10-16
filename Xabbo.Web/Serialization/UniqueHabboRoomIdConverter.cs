@@ -2,7 +2,7 @@
 
 namespace Xabbo.Web.Serialization;
 
-public class HabboUniqueRoomIdConverter : JsonConverter<UniqueHabboRoomId?>
+public class UniqueHabboRoomIdConverter : JsonConverter<UniqueHabboRoomId?>
 {
     public override UniqueHabboRoomId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
