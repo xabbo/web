@@ -93,7 +93,8 @@ public sealed partial class HabboApiClient : IDisposable
     /// <returns>
     /// The user's information. If the user's profile is visible, this will be an instance of <see cref="ExtendedUserInfo"/>.
     /// </returns>
-    /// <exception cref="UserNotFoundException">If the user was not found.</exception>
+    /// <exception cref="UserNotFoundException">The user was not found.</exception>
+    /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public Task<UserInfo> GetUserInfoAsync(string name, bool checkBanned = true, CancellationToken cancellationToken = default)
         => GetUserInfoAsync(new Uri($"/api/public/users?name={WebUtility.UrlEncode(name)}", UriKind.Relative), null, name, checkBanned, cancellationToken);
 
@@ -106,9 +107,10 @@ public sealed partial class HabboApiClient : IDisposable
     /// The user's information. If the user's profile is visible, this will be an instance of <see cref="ExtendedUserInfo"/>.
     /// </returns>
     /// <exception cref="UserNotFoundException">
-    /// If the user was not found. May also be thrown if the user is banned.
+    /// The user was not found, or the user is banned.
     /// It is not possible to detect whether a user is banned without their name.
     /// </exception>
+    /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public Task<UserInfo> GetUserInfoAsync(UniqueHabboUserId uniqueId, CancellationToken cancellationToken = default)
         => GetUserInfoAsync(new Uri($"/api/public/users/{uniqueId}", UriKind.Relative), uniqueId, null, false, cancellationToken);
 
@@ -124,9 +126,10 @@ public sealed partial class HabboApiClient : IDisposable
     /// </param>
     /// <param name="cancellationToken">A token used to cancel the request.</param>
     /// <returns>The user's profile.</returns>
-    /// <exception cref="UserNotFoundException">If the user was not found.</exception>
-    /// <exception cref="ProfileNotVisibleException">If the user's profile is not visible.</exception>
-    /// <exception cref="UserBannedException">If the user is detected to be banned.</exception>
+    /// <exception cref="UserNotFoundException">The user was not found, or the user is banned.</exception>
+    /// <exception cref="ProfileNotVisibleException">The user's profile is not visible.</exception>
+    /// <exception cref="UserBannedException">The user is detected as banned.</exception>
+    /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<UserProfile> GetUserProfileAsync(string name, bool checkBanned = true, CancellationToken cancellationToken = default)
     {
         var userInfo = await GetUserInfoAsync(name, checkBanned, cancellationToken);
@@ -148,10 +151,11 @@ public sealed partial class HabboApiClient : IDisposable
     /// <param name="cancellationToken">A token used to cancel the request.</param>
     /// <returns>The user's profile.</returns>
     /// <exception cref="UserNotFoundException">
-    /// If the user was not found. May also be thrown if the user is banned.
+    /// If the user was not found, or the user is banned.
     /// It is not possible to detect whether a user is banned without their name.
     /// </exception>
-    /// <exception cref="ProfileNotVisibleException">If the user's profile is not visible.</exception>
+    /// <exception cref="ProfileNotVisibleException">The user's profile is not visible.</exception>
+    /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<UserProfile> GetUserProfileAsync(UniqueHabboUserId uniqueId, bool checkNotVisible = true, CancellationToken cancellationToken = default)
     {
         var res = await _http.GetAsync($"/api/public/users/{uniqueId}/profile", cancellationToken);
@@ -171,6 +175,15 @@ public sealed partial class HabboApiClient : IDisposable
     #endregion
 
     #region Rooms
+    /// <summary>
+    /// Gets the information of a room by its ID.
+    /// </summary>
+    /// <param name="roomId">The ID of the room.</param>
+    /// <param name="cancellationToken">A token used to cancel the request.</param>
+    /// <returns>The room information.</returns>
+    /// <exception cref="ArgumentException">The room ID is negative.</exception>
+    /// <exception cref="RoomNotFoundException">The room was not found.</exception>
+    /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<RoomInfo> GetRoomInfoAsync(long roomId, CancellationToken cancellationToken = default)
     {
         if (roomId < 0)
@@ -186,7 +199,14 @@ public sealed partial class HabboApiClient : IDisposable
     #endregion
 
     #region Photos
-    public async Task<PhotoData> GetPhotoDataAsync(Guid photoId, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Gets the information of a photo by its ID.
+    /// </summary>
+    /// <param name="photoId">The ID of the photo.</param>
+    /// <param name="cancellationToken">A token used to cancel the request.</param>
+    /// <returns>The photo information.</returns>
+    /// <exception cref="PhotoNotFoundException">The photo was not found.</exception>
+    /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<PhotoInfo> GetPhotoDataAsync(Guid photoId, CancellationToken cancellationToken = default)
     {
         var res = await _http.GetAsync($"https://extradata.habbo.com/public/furni/{photoId}", cancellationToken);
