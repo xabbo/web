@@ -29,5 +29,5 @@ public sealed class UniqueHabboGroupId : UniqueHabboId
         => TryParse(s, out var uniqueId) ? uniqueId : throw new FormatException($"Invalid unique group ID format: '{s}'.");
 
     public static bool TryParse(string s, [NotNullWhen(true)] out UniqueHabboGroupId? uniqueId)
-        => (uniqueId = IsValid(s) ? new(s[2..4], s[^32..]) : null) is not null;
+        => (uniqueId = IsValid(s) ? new(s[4..6], s[^32..]) : null) is not null;
 }

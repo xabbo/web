@@ -29,5 +29,5 @@ public sealed class UniqueHabboUserId : UniqueHabboId
         => TryParse(s, out var uniqueId) ? uniqueId : throw new FormatException($"Invalid unique user ID format: '{s}'.");
 
     public static bool TryParse(string s, [NotNullWhen(true)] out UniqueHabboUserId? uniqueId)
-        => (uniqueId = IsValid(s) ? new(s[0..2], s[^32..]) : null) is not null;
+        => (uniqueId = IsValid(s) ? new(s[2..4], s[^32..]) : null) is not null;
 }
