@@ -2,12 +2,6 @@
 
 public class UserProfile
 {
-    [JsonIgnore] public HabboUniqueUserId UniqueId => UserInfo.UniqueId;
-    [JsonIgnore] public string Name => UserInfo.Name;
-    [JsonIgnore] public string FigureString => UserInfo.FigureString;
-    [JsonIgnore] public string Motto => UserInfo.Motto;
-    [JsonIgnore] public DateTime Created => UserInfo.Created;
-
     [JsonPropertyName("user")]
     public UserInfo UserInfo { get; set; } = new();
 
