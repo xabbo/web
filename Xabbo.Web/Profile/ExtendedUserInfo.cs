@@ -9,7 +9,7 @@ public class ExtendedUserInfo : UserInfo
     public bool IsOnline { get; set; }
 
     [JsonPropertyName("lastAccessTime")]
-    public DateTime LastAccessTime { get; set; }
+    public DateTime? LastAccessTime { get; set; }
 
     [JsonPropertyName("currentLevel")]
     public int CurrentLevel { get; set; }
