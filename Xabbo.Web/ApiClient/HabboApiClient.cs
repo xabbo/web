@@ -90,7 +90,9 @@ public sealed partial class HabboApiClient : IDisposable
     /// If a ban is detected, a <see cref="UserBannedException"/> will be thrown.
     /// </param>
     /// <param name="cancellationToken">A token used to cancel the request.</param>
-    /// <returns>The user's information</returns>
+    /// <returns>
+    /// The user's information. If the user's profile is visible, this will be an instance of <see cref="ExtendedUserInfo"/>.
+    /// </returns>
     /// <exception cref="UserNotFoundException">If the user was not found.</exception>
     public Task<UserInfo> GetUserInfoAsync(string name, bool checkBanned = true, CancellationToken cancellationToken = default)
         => GetUserInfoAsync(new Uri($"/api/public/users?name={WebUtility.UrlEncode(name)}", UriKind.Relative), null, name, checkBanned, cancellationToken);
@@ -100,7 +102,9 @@ public sealed partial class HabboApiClient : IDisposable
     /// </summary>
     /// <param name="uniqueId">The user's unique ID.</param>
     /// <param name="cancellationToken">A token used to cancel the request.</param>
-    /// <returns>The user's information.</returns>
+    /// <returns>
+    /// The user's information. If the user's profile is visible, this will be an instance of <see cref="ExtendedUserInfo"/>.
+    /// </returns>
     /// <exception cref="UserNotFoundException">
     /// If the user was not found. May also be thrown if the user is banned.
     /// It is not possible to detect whether a user is banned without their name.
