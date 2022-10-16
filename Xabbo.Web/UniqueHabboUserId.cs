@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace Xabbo.Web;
 
@@ -24,11 +25,9 @@ public sealed class UniqueHabboUserId : UniqueHabboId
 
     public static new bool IsValid(string uniqueId) => RegexUniqueUserId.IsMatch(uniqueId);
 
-    public static UniqueHabboUserId Parse(string uniqueId)
-    {
-        if (!RegexUniqueUserId.IsMatch(uniqueId))
-            throw new FormatException($"Invalid unique user ID format: '{uniqueId}'.");
+    public static UniqueHabboUserId Parse(string s)
+        => TryParse(s, out var uniqueId) ? uniqueId : throw new FormatException($"Invalid unique user ID format: '{s}'.");
 
-        return new(uniqueId[0..2], uniqueId[^32..]);
-    }
+    public static bool TryParse(string s, [NotNullWhen(true)] out UniqueHabboUserId? uniqueId)
+        => (uniqueId = IsValid(s) ? new(s[0..2], s[^32..]) : null) is not null;
 }
