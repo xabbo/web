@@ -187,13 +187,14 @@ public sealed partial class HabboApiClient : IDisposable
 
     #region Photos
     public async Task<PhotoData> GetPhotoDataAsync(Guid photoId, CancellationToken cancellationToken = default)
+    public async Task<PhotoInfo> GetPhotoDataAsync(Guid photoId, CancellationToken cancellationToken = default)
     {
         var res = await _http.GetAsync($"https://extradata.habbo.com/public/furni/{photoId}", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
             throw new PhotoNotFoundException(photoId);
 
         res.EnsureSuccessStatusCode();
-        return (await res.Content.ReadFromJsonAsync<PhotoData>(SerializerOptions, cancellationToken))!;
+        return (await res.Content.ReadFromJsonAsync<PhotoInfo>(SerializerOptions, cancellationToken))!;
     }
     #endregion
 
