@@ -3,7 +3,7 @@
 public class UserProfile
 {
     [JsonPropertyName("user")]
-    public UserInfo UserInfo { get; set; } = new();
+    public ExtendedUserInfo UserInfo { get; set; } = new();
 
     [JsonPropertyName("groups")]
     public List<GroupInfo> Groups { get; set; } = new();
