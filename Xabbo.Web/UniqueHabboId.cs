@@ -37,7 +37,7 @@ public abstract class UniqueHabboId : IEquatable<UniqueHabboId>
         ArgumentNullException.ThrowIfNull(hash);
 
         if (!Enum.IsDefined(type))
-            throw new ArgumentException("Unknown HabboUniqueIdType.", nameof(type));
+            throw new ArgumentException($"Undefined {nameof(UniqueHabboIdType)} value.", nameof(type));
         if (!RegexHotel.IsMatch(hotel))
             throw new ArgumentException("Invalid hotel. Must be a 2-character identifier.", nameof(hotel));
         if (!RegexHash.IsMatch(hash))
@@ -47,6 +47,8 @@ public abstract class UniqueHabboId : IEquatable<UniqueHabboId>
         Hotel = hotel;
         Hash = hash;
     }
+
+    public override string ToString() => $"{GetPrefix(Type)}hh{Hotel}-{Hash}";
 
     public override int GetHashCode() => HashCode.Combine(Type, Hotel, Hash);
     public override bool Equals(object? obj) => obj is UniqueHabboId other && Equals(other);
@@ -60,6 +62,17 @@ public abstract class UniqueHabboId : IEquatable<UniqueHabboId>
     }
 
     public static bool IsValid(string uniqueId) => RegexUniqueId.IsMatch(uniqueId);
+
+    /// <summary>
+    /// Gets the prefix for the specified unique ID type.
+    /// </summary>
+    public static string GetPrefix(UniqueHabboIdType type) => type switch
+    {
+        UniqueHabboIdType.User => string.Empty,
+        UniqueHabboIdType.Group => "g-",
+        UniqueHabboIdType.Room => "r-",
+        _ => throw new ArgumentException($"Undefined {nameof(UniqueHabboIdType)} value.", nameof(type))
+    };
 
     public static bool operator ==(UniqueHabboId? left, UniqueHabboId? right) => left?.Equals(right) ?? right is null;
     public static bool operator !=(UniqueHabboId? left, UniqueHabboId? right) => !(left == right);
