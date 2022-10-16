@@ -2,16 +2,18 @@
 
 namespace Xabbo.Web.Serialization;
 
-public class HabboUniqueRoomIdConverter : JsonConverter<HabboUniqueRoomId>
+public class HabboUniqueRoomIdConverter : JsonConverter<UniqueHabboRoomId?>
 {
-    public override HabboUniqueRoomId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override UniqueHabboRoomId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string uniqueId = reader.GetString() ?? throw new FormatException($"Habbo unique room ID was null.");
-        return HabboUniqueRoomId.Parse(uniqueId);
+        string? uniqueId = reader.GetString();
+        if (uniqueId is null)
+            return null;
+        return UniqueHabboRoomId.Parse(uniqueId);
     }
 
-    public override void Write(Utf8JsonWriter writer, HabboUniqueRoomId value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, UniqueHabboRoomId? value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString());
+        writer.WriteStringValue(value?.ToString());
     }
 }

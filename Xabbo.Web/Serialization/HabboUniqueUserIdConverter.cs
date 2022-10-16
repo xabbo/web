@@ -2,16 +2,18 @@
 
 namespace Xabbo.Web.Serialization;
 
-public class HabboUniqueUserIdConverter : JsonConverter<HabboUniqueUserId>
+public class HabboUniqueUserIdConverter : JsonConverter<UniqueHabboUserId?>
 {
-    public override HabboUniqueUserId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override UniqueHabboUserId? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string uniqueId = reader.GetString() ?? throw new FormatException($"Habbo unique user ID was null.");
-        return HabboUniqueUserId.Parse(uniqueId);
+        string? uniqueId = reader.GetString();
+        if (uniqueId is null)
+            return null;
+        return UniqueHabboUserId.Parse(uniqueId);
     }
 
-    public override void Write(Utf8JsonWriter writer, HabboUniqueUserId value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, UniqueHabboUserId? value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString());
+        writer.WriteStringValue(value?.ToString());
     }
 }

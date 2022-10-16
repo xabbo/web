@@ -35,6 +35,7 @@ public sealed partial class HabboApiClient : IDisposable
                 new DateTimeConverter(),
                 new HabboUniqueUserIdConverter(),
                 new HabboUniqueRoomIdConverter(),
+                new HabboUniqueGroupIdConverter(),
                 new UserInfoConverter()
             }
         };
@@ -50,7 +51,7 @@ public sealed partial class HabboApiClient : IDisposable
     }
 
     #region Users
-    private async Task<UserInfo> GetUserInfoAsync(Uri requestUri, HabboUniqueUserId? uniqueId, string? name, bool checkBanned, CancellationToken cancellationToken)
+    private async Task<UserInfo> GetUserInfoAsync(Uri requestUri, UniqueHabboUserId? uniqueId, string? name, bool checkBanned, CancellationToken cancellationToken)
     {
         var res = await _http.GetAsync(requestUri, cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
@@ -104,7 +105,7 @@ public sealed partial class HabboApiClient : IDisposable
     /// If the user was not found. May also be thrown if the user is banned.
     /// It is not possible to detect whether a user is banned without their name.
     /// </exception>
-    public Task<UserInfo> GetUserInfoAsync(HabboUniqueUserId uniqueId, CancellationToken cancellationToken = default)
+    public Task<UserInfo> GetUserInfoAsync(UniqueHabboUserId uniqueId, CancellationToken cancellationToken = default)
         => GetUserInfoAsync(new Uri($"/api/public/users/{uniqueId}", UriKind.Relative), uniqueId, null, false, cancellationToken);
 
     /// <summary>
@@ -147,7 +148,7 @@ public sealed partial class HabboApiClient : IDisposable
     /// It is not possible to detect whether a user is banned without their name.
     /// </exception>
     /// <exception cref="ProfileNotVisibleException">If the user's profile is not visible.</exception>
-    public async Task<UserProfile> GetUserProfileAsync(HabboUniqueUserId uniqueId, bool checkNotVisible = true, CancellationToken cancellationToken = default)
+    public async Task<UserProfile> GetUserProfileAsync(UniqueHabboUserId uniqueId, bool checkNotVisible = true, CancellationToken cancellationToken = default)
     {
         var res = await _http.GetAsync($"/api/public/users/{uniqueId}/profile", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)

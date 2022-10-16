@@ -21,7 +21,7 @@ public class PhotoData
     public long RoomId { get; set; }
 
     [JsonPropertyName("creator_uniqueId")]
-    public HabboUniqueUserId CreatorUniqueId { get; set; }
+    public UniqueHabboUserId CreatorUniqueId { get; set; } = UniqueHabboUserId.None;
 
     [JsonPropertyName("creator_id")]
     public long CreatorId { get; set; }

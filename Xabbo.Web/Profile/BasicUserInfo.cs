@@ -8,7 +8,7 @@ namespace Xabbo.Web;
 public class BasicUserInfo : UserInfoBase
 {
     [JsonPropertyName("uniqueId")]
-    public HabboUniqueUserId UniqueId { get; set; }
+    public UniqueHabboUserId UniqueId { get; set; } = UniqueHabboUserId.None;
 
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;

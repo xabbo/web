@@ -6,7 +6,7 @@ public class AvatarInfo
     /// The globally unique user identifier of this avatar.
     /// </summary>
     [JsonPropertyName("uniqueId")]
-    public HabboUniqueUserId UniqueId { get; set; }
+    public UniqueHabboUserId UniqueId { get; set; } = UniqueHabboUserId.None;
 
     /// <summary>
     /// The name of this avatar.
