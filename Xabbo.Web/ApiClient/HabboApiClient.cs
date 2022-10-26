@@ -53,6 +53,9 @@ public sealed partial class HabboApiClient : IDisposable
     #region Users
     private async Task<UserInfo> GetUserInfoAsync(Uri requestUri, UniqueHabboUserId? uniqueId, string? name, bool checkBanned, CancellationToken cancellationToken)
     {
+        if (uniqueId == UniqueHabboUserId.None)
+            throw new ArgumentException("Unique ID cannot be None.", nameof(uniqueId));
+
         var res = await _http.GetAsync(requestUri, cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
         {
@@ -132,6 +135,10 @@ public sealed partial class HabboApiClient : IDisposable
     /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<UserProfile> GetUserProfileAsync(string name, bool checkBanned = true, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(nameof(name));
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Name cannot be empty.", nameof(name));
+
         var userInfo = await GetUserInfoAsync(name, checkBanned, cancellationToken);
         if (!userInfo.IsProfileVisible)
             throw new ProfileNotVisibleException(name, userInfo);
@@ -158,6 +165,10 @@ public sealed partial class HabboApiClient : IDisposable
     /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<UserProfile> GetUserProfileAsync(UniqueHabboUserId uniqueId, bool checkNotVisible = true, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(uniqueId);
+        if (uniqueId == UniqueHabboUserId.None)
+            throw new ArgumentException("Unique ID cannot be none.", nameof(uniqueId));
+
         var res = await _http.GetAsync($"/api/public/users/{uniqueId}/profile", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
         {
@@ -209,6 +220,9 @@ public sealed partial class HabboApiClient : IDisposable
     /// <exception cref="HttpRequestException">The request was unsuccessful.</exception>
     public async Task<PhotoInfo> GetPhotoDataAsync(Guid photoId, CancellationToken cancellationToken = default)
     {
+        if (photoId == Guid.Empty)
+            throw new ArgumentException("Photo ID cannot be empty.", nameof(photoId));
+
         var res = await _http.GetAsync($"https://extradata.habbo.com/public/furni/{photoId}", cancellationToken);
         if (res.StatusCode == HttpStatusCode.NotFound)
             throw new PhotoNotFoundException(photoId);
