@@ -16,9 +16,9 @@ public class DeserializationTests
     [Fact(DisplayName = "Deserializes to BasicUserInfo when profileVisible property is not present")]
     public void DeserializeToBasicUserInfo()
     {
-        string json = File.ReadAllText(@"Payloads\UserInfo.json");
+        string json = File.ReadAllText(@"Payloads\BasicUserInfo.json");
         var userInfo = JsonSerializer.Deserialize<UserInfoBase>(json, SerializerOptions);
-        Assert.IsType<UserInfo>(userInfo);
+        Assert.IsType<BasicUserInfo>(userInfo);
     }
 
     [Fact(DisplayName = "Deserializes to UserInfo when profileVisible is true")]

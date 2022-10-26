@@ -1,0 +1,22 @@
+﻿{
+  "uniqueId": "hhxx-00000000000000000000000000000000",
+  "name": "Name",
+  "figureString": "hd-180",
+  "motto": "Motto",
+  "online": false,
+  "lastAccessTime": null,
+  "memberSince": "2000-01-01T00:00:00.000+0000",
+  "profileVisible": true,
+  "currentLevel": 1,
+  "currentLevelCompletePercent": 10,
+  "totalExperience": 100,
+  "starGemCount": 1000,
+  "selectedBadges": [
+    {
+      "badgeIndex": 1,
+      "code": "ACH_RegistrationDuration20",
+      "name": "100 % True Habbo XX",
+      "description": "For being a member of the community for 1825 days."
+    }
+  ]
+}
